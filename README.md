@@ -1,4 +1,4 @@
-# Ecole d'Automne - 8 conférences sur l'Inteligence Artificielle et le Machine Learning dans la Science du vivant.
+# Ecole d'Automne - 8 conférences sur l'Intelligence Artificielle et le Machine Learning dans la Science du vivant.
 
 Le 20 novembre 2026 aura lieu un après-midi de conférence sur la réalisation de projets de Machine Learning dans les sciences du vivant.
 Les 8 conférences de 20 min suivantes auront lieu de 13h30 jusqu'à 16h30 : 
