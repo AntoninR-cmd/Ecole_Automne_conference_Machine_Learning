@@ -1,0 +1,57 @@
+==============================================================================
+BILAN DU MODELE FINAL : U-Net resnet34 (ImageNet), 20 époques
+==============================================================================
+963 images évaluées, dont 623 avec vaisseau (cible : union de vessel + supervessel).
+Chaque image est prédite par un modèle qui n'a jamais vu son examen : ces chiffres
+estiment la performance sur des examens non vus (patients distincts non vérifiés).
+[IC95] = intervalle de confiance à 95 % (bootstrap par examen).
+Modèle évalué : ENSEMBLE des 3 graines (moyenne de leurs prédictions).
+
+1. DETECTION : le modèle trouve-t-il les vaisseaux ?
+------------------------------------------------------------------------------
+a) Qualité du classement (AUC, indépendante de tout seuil). 0,5 = hasard, 1 = parfait.
+   Lecture : probabilité qu'une image avec vaisseau reçoive un score plus élevé
+   qu'une image sans vaisseau.
+   sonde 7 : AUC 0.735 [IC95 0.690 - 0.782]   (724 images, 553 avec vaisseau)
+   sonde 9 : AUC 0.733 [IC95 0.648 - 0.816]   (239 images, 70 avec vaisseau)
+   (pas d'AUC globale : elle serait gonflée par la différence de proportion de
+   vaisseaux entre les deux sondes)
+
+b) Décision présent / absent, seuil fixé par sonde pour 10.0 % de fausses alarmes visées
+   (seuil calculé sur la calibration interne, sans les images testées).
+   sonde 7 : sensibilité 46.1 % (255/553 vaisseaux trouvés) | spécificité 87.1 % (149/171)
+             VPP 92.1 % (quand il dit 'vaisseau', il a raison) | VPN 33.3 % | exactitude 55.8 %
+   sonde 9 : sensibilité 35.7 % (25/70 vaisseaux trouvés) | spécificité 88.8 % (150/169)
+             VPP 56.8 % (quand il dit 'vaisseau', il a raison) | VPN 76.9 % | exactitude 73.2 %
+   ensemble: sensibilité 44.9 % (280/623 vaisseaux trouvés) | spécificité 87.9 % (299/340)
+             VPP 87.2 % (quand il dit 'vaisseau', il a raison) | VPN 46.6 % | exactitude 60.1 %
+   Variabilité entre les 3 graines seules (sensibilité) : sonde 7 44.4 ± 10.0 % | sonde 9 34.3 ± 3.8 %
+
+2. LOCALISATION : sur les images AVEC vaisseau, le modèle le place-t-il au bon endroit ?
+------------------------------------------------------------------------------
+   Évaluée sur toutes les images avec vaisseau, que le modèle l'ait détecté ou non :
+   on mesure la localisation seule. Référence = 'ligne fixe' (même profondeur pour
+   toutes les images d'une sonde, médiane du train, sans regarder l'image).
+   Le modèle n'apporte quelque chose que s'il fait mieux.
+   Profondeur prédite DANS la bande annotée (tolérance 0 px) :
+     sonde 7 : modèle 82.3 % | ligne fixe 62.2 % | écart +20.1 pts [IC95 +15.6 ; +24.6] -> MIEUX que la ligne fixe (n=553)
+     sonde 9 : modèle 75.7 % | ligne fixe 74.3 % | écart +1.4 pts [IC95 -7.4 ; +10.9] -> pas de différence démontrée avec la ligne fixe (n=70)
+     ensemble: modèle 81.5 % | ligne fixe 63.6 % | écart +18.0 pts [IC95 +13.6 ; +22.3] -> MIEUX que la ligne fixe (n=623)
+   Profondeur prédite DANS la bande annotée (tolérance 5 px) :
+     sonde 7 : modèle 87.2 % | ligne fixe 78.1 % | écart +9.0 pts [IC95 +5.4 ; +12.7] -> MIEUX que la ligne fixe (n=553)
+     sonde 9 : modèle 81.4 % | ligne fixe 81.4 % | écart +0.0 pts [IC95 -8.6 ; +7.1] -> pas de différence démontrée avec la ligne fixe (n=70)
+     ensemble: modèle 86.5 % | ligne fixe 78.5 % | écart +8.0 pts [IC95 +4.6 ; +11.3] -> MIEUX que la ligne fixe (n=623)
+   Variabilité entre les 3 graines seules (dans la bande, tolérance 0) : sonde 7 79.4 ± 0.6 % | sonde 9 77.1 ± 0.0 %
+   Erreur typique : distance médiane à la bande 0.0 px (ligne fixe 0.0 px) ;
+   écart médian au centre de la bande 6.5 px (ligne fixe 10.5 px) ;
+   90 % des images sont à moins de 8.8 px de la bande (ligne fixe 16.5 px).
+
+3. BOUT EN BOUT : vaisseau détecté ET bien localisé (part des images avec vaisseau)
+------------------------------------------------------------------------------
+   sonde 7 : 39.8 % (tolérance 0 px) | 42.1 % (tolérance 5 px)
+   sonde 9 : 27.1 % (tolérance 0 px) | 31.4 % (tolérance 5 px)
+   ensemble: 38.4 % (tolérance 0 px) | 40.9 % (tolérance 5 px)
+
+PRUDENCE : la sonde 9 n'a que 70 images avec vaisseau ; ses chiffres sont
+très incertains (intervalles de confiance larges).
+==============================================================================
