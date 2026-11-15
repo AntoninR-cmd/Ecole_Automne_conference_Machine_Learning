@@ -4,13 +4,13 @@ Le 20 novembre 2026 aura lieu un après-midi de conférence sur la réalisation 
 Les 8 conférences de 20 min suivantes auront lieu de 13h30 jusqu'à 16h30 : 
 
 - Identifier des molécules inconnues à partir de leur spectre de masse : une approche par apprentissage automatique
-- identification des blessures du genou les plus fréquentes chez le coureur
+- Identification des blessures du genou les plus fréquentes chez le coureur
 - Prédiction de la résistance aux antibiotiques
 - Comment croiser des données hétérogènes pour anticiper les départs de feu ?
 - Détection et localisation automatiques des fractures sur clichés radiographies par approche YOLO
 - Reconnaissance d'images de graines : jusqu'où un modèle peut-il généraliser ?
 - Détection automatique de chants d’oiseaux dans des enregistrements audio
-- LIVER WARS : À LA RECHERCHE DES VAISSEAUX PERDUS
+- Liver Wars : à la recherche des vaisseaux perdus 
 
 Ces conférences sont ouvertes au public, vous pouvez retrouver plus d'informations sur le programme, les conférenciers, la date, le lieu et l'heure sur le site web suivant : 
 
