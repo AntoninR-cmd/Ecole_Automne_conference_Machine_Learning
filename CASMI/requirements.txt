@@ -1,0 +1,18 @@
+# Versions exactes avec lesquelles les résultats de casmi_final.ipynb ont été obtenus (Python 3.14.4, Linux, sans GPU).
+# Installer torch d'abord, en version CPU (environ 200 Mo au lieu de plusieurs Go) :
+#   pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
+# puis : pip install -r requirements.txt
+pandas==3.1.0
+pyarrow==26.0.0
+numpy==2.5.4
+scipy==1.18.1
+scikit-learn==1.9.1
+rdkit==2026.9.1
+torch==2.15.0
+matplotlib==3.11.2
+ipykernel==7.4.0
+
+# Facultatif : télécharger les données Kaggle avec son propre jeton (voir le README)
+kagglehub==1.0.3
+
+# DreaMS n'est pas listé ici : casmi_dreams.ipynb l'installe dans un environnement séparé (Python 3.11, torch 2.2.1).
