@@ -10,7 +10,7 @@ Détection de fractures du poignet pédiatrique sur radiographies, avec le datas
 
 ## Méthode
 - Modèles : YOLOv8, YOLO11, YOLO26 (versions Nano)
-- Données : échantillon rééquilibré([10 % / 90 %) entre images négatives et positives, mêmes proportions en train, val et test
+- Données : échantillon rééquilibré(10 % / 90 %) entre images négatives et positives, mêmes proportions en train, val et test
 - Entraînement avec Ultralytics :
 
 | Essai | Modèle YOLO | Paramètres clés |
