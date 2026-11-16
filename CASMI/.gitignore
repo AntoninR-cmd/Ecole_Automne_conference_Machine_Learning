@@ -1,0 +1,16 @@
+# Données de la compétition (licence CC BY-NC 4.0, non redistribuables) et tous les fichiers calculés à partir d'elles.
+# Sans barre finale : ignore aussi bien un dossier data/ qu'un lien symbolique nommé data.
+/data
+
+# Notes de travail locales (Claude Code)
+.claude/
+
+# Environnement et fichiers temporaires de DreaMS (casmi_dreams.ipynb)
+.dreams/
+*.mgf
+*.hdf5
+
+# Python et Jupyter
+.venv/
+__pycache__/
+.ipynb_checkpoints/
