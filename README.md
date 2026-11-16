@@ -40,7 +40,9 @@ Il pourrait également être adapté à d'autres domaines, comme la zoologie ou 
 
 # Mode d'emploi
 
+les données à télécharger sur le lien (disponibles jusqu'au octobre 2027) : https://aobox-etu.agrocampus-ouest.fr/s/AhAGyGpsd2Vls3M
 Les différents scripts produisent des graphiques permettant d'évaluer l'accuracy et la loss des modèles en fonction du nombre d'époques (*epochs*), ainsi qu'une matrice de confusion finale comparant les prédictions aux classes réelles des données à classer.
+
 
 Si l'objectif est de tester un résultat correspondant à un niveau de la méthodologie, il suffit de se rendre dans le script correspondant et d'exécuter le code, en vérifiant au préalable que les chemins d'accès aux dossiers sont corrects.
 
