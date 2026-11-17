@@ -22,15 +22,17 @@ Enfin, dans le dernier niveau, nous testons les limites du modèle et sa capacit
 
 Notre projet se compose donc de [...] fichiers et dossiers. Un dossier « DATA » regroupe les données issues de l'article sur lequel nous avons basé notre étude, ainsi que les données ajoutées.
 
-Il y a également un dossier « rda », qui contient des fichiers au format « .rda » permettant de qualifier les images, ainsi que les poids des modèles entraînés précédemment, au format « .h5 ». C'est grâce aux informations contenues dans les fichiers RDA que l'on peut distinguer, par exemple, les graines domestiquées des graines sauvages, mais aussi différencier les données utilisées pour l'entraînement des modèles de celles utilisées pour les tests. Ces fichiers permettent donc d'étiqueter et de caractériser nos données.
+Il y a également un dossier « rda », qui contient des fichiers au format « .rda » permettant de qualifier les images, ainsi que les poids des modèles entraînés précédemment, au format « .h5 » (pas déposé nos poids, vue la taille des fichiers). C'est grâce aux informations contenues dans les fichiers RDA que l'on peut distinguer, par exemple, les graines domestiquées des graines sauvages, mais aussi différencier les données utilisées pour l'entraînement des modèles de celles utilisées pour les tests. Ces fichiers permettent donc d'étiqueter et de caractériser nos données.
 
 Un dossier « R » contient les différents modèles, organisés suivant la hiérarchisation établie précédemment, ainsi que les scripts utilitaires.
 
-Les scripts portant le suffixe « _bis » concernent les modèles entraînés uniquement sur les graines « domestiquées » ou « sauvages ». À l'inverse, les scripts sans ce suffixe portent sur la combinaison des deux statuts.
+Le script « 1er_mod_entrainement_sauvage_ou_domestique.R » concernent la modèle entraîné sur les graines « domestiquées » et « sauvages » en même temps.
 
-Le script « Test4.R » concerne l'évaluation des modèles du niveau 1, avec l'ajout de graines archéologiques parmi les données à prédire.
+Le script « 2eme_modèle_entrainement_sauvage_et_domestique.R » concernent les modèles entraînés uniquement sur les graines « domestiquées » ou « sauvages ».
 
-Enfin, les scripts « Test5 » mettent en œuvre la classe de rejet.
+Le script « 3eme_mod_entrainement_sauvage_et_ou_dom_archeo.R » concerne l'évaluation des modèles 1 et 2, avec l'ajout de graines archéologiques parmi les données à prédire.
+
+Enfin, les scripts « 4eme_mod_entrainement_sauvage_classe de rejet.R » mettent en œuvre la classe de rejet.
 
 # Utilité
 
