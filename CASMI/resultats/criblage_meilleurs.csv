@@ -1,0 +1,7 @@
+modèle,bin_width,transform,adduct_encoding,tête,k,MRR@25,durée de la grille (min)
+kNN,0.01,log,,,5,0.427,5.008
+Régression logistique,0.1,log,decompose,,,0.107,8.227
+MLP,0.1,racine,onehot,,,0.119,6.916
+Forêt aléatoire,1.0,racine,,,,0.138,4.18
+DreaMS + kNN,,,,,5,0.256,0.361
+DreaMS + tête,,,,MLP,,0.126,0.666
