@@ -1,45 +1,41 @@
-# =====================================================================
-# Test2.R
-# Reconnaissance de 3 ESPECES (Olea, Phoenix, Vitis), a partir des seules
-# graines DOMESTIQUES, avec VGG19 gele + tete de classification.
+# Ce script aborde la reconnaissance des 3 espèces (Olea, Phoenix, Vitis) à
+# partir des seules graines domestiques, avec un VGG19 gelé et une tête de
+# classification à 3 sorties.
 #
-# Par rapport a Test1.R :
-#   - la tache change : on ne distingue plus domestique / sauvage au
-#     sein d'un taxon, on distingue 3 taxons entre eux
-#   - 3 dossiers de photos et 3 .rda en entree, reunis en un seul tableau
+# Par rapport à Test1.R, plusieurs choses changent :
+#   - la tâche change : on ne distingue plus domestique / sauvage au sein
+#     d'un taxon, on distingue 3 taxons entre eux
+#   - 3 dossiers de photos et 3 .rda en entrée, réunis en un seul tableau
 #   - on ne garde que les graines domestiques (filtre sur la colonne status)
-#   - sortie du reseau : softmax a 3 classes (au lieu d'une sigmoide)
+#   - sortie du réseau : softmax à 3 classes (au lieu d'une sigmoïde)
 #   - perte : categorical_crossentropy (au lieu de binary_crossentropy)
-#   - evaluation : matrice de confusion 3 x 3
+#   - évaluation : matrice de confusion 3 x 3
 #
-# Entrainement, validation ("test") et evaluation externe sont tous
-# tires parmi les images domestiques.
+# Entraînement, validation ("test") et évaluation externe sont tous tirés
+# parmi les images domestiques.
 #
-# Les ecarts avec Test1.R sont signales par "DIFFERENCE".
-# Commentaires sans accents (encodage Windows).
-# =====================================================================
+# Les écarts avec Test1.R sont signalés dans les commentaires par la mention
+# "Différence avec Test1".
 
 
-# ---------------------------------------------------------------------
-# 0. PARAMETRES
-# ---------------------------------------------------------------------
+# Paramètres généraux
 racine      <- "C:/Users/fanos/Documents/Cours/Projet ML"
 dossier_db  <- "rda/db"
 dossier_res <- "rda/results/especes_domestiques"
 
-# un taxon = un dossier de photos (les .rda sont cherches par le nom du taxon)
+# Un taxon = un dossier de photos (les .rda sont cherchés par le nom du taxon)
 taxons <- c(olea    = "DATA/OLEA",
             phoenix = "DATA/PHOENIX",
             vitis   = "DATA/VITIS")
 
 col_image <- "VD_deep"   # vue dorsale pour les 3 taxons
 
-# Valeur de la colonne "status" des .rda de base qui designe une graine
+# Valeur de la colonne "status" des .rda de base qui désigne une graine
 # domestique : "c" (les graines sauvages ont une autre valeur).
 statut_domestique <- "c"
 
 N_model    <- 100     # images PAR CLASSE pour train + "test" (validation)
-N_external <- 100    # images PAR CLASSE pour l'evaluation finale
+N_external <- 100     # images PAR CLASSE pour l'évaluation finale
 prop_train <- 4/5
 epochs     <- 200
 seed       <- 2329
@@ -47,12 +43,10 @@ batch_size <- 32
 input_shape <- c(120, 90, 3)   # (hauteur, largeur, canaux)
 
 
-# ---------------------------------------------------------------------
-# 1. PACKAGES ET DOSSIER DE TRAVAIL
-# ---------------------------------------------------------------------
+# Chargement des packages et préparation du dossier de travail
 library(tidyverse)
 library(keras)
-py_require_legacy_keras()   # declare TensorFlow / tf-keras a reticulate
+py_require_legacy_keras()   # déclare TensorFlow / tf-keras à reticulate
 library(tensorflow)
 
 setwd(racine)
@@ -60,16 +54,14 @@ cat("Dossier de travail :", getwd(), "\n")
 begin_time <- Sys.time()
 
 
-# ---------------------------------------------------------------------
-# 2. FONCTION : CHARGER UN TAXON ET NE GARDER QUE LES DOMESTIQUES
-# ---------------------------------------------------------------------
+# Fonction : charger un taxon et ne garder que les domestiques.
 # Renvoie un tableau (taxon, statut, path) avec un chemin d'image valide
 # pour chaque graine domestique.
 
 charger_taxon <- function(taxon, dossier_img) {
   cat("\n=====", toupper(taxon), "=====\n")
 
-  # --- 2.1 le .rda (on prefere <taxon>_db2.rda, comme dans l'article)
+  # Le .rda (on préfère <taxon>_db2.rda, comme dans l'article)
   fichiers <- list.files(dossier_db, pattern = taxon,
                          full.names = TRUE, ignore.case = TRUE)
   if (length(fichiers) == 0) stop("Aucun .rda '", taxon, "' dans ", dossier_db)
@@ -85,7 +77,7 @@ charger_taxon <- function(taxon, dossier_img) {
     stop("Colonnes 'status' et/ou '", col_image, "' introuvables pour ", taxon)
   }
 
-  # --- 2.2 filtre : graines domestiques
+  # Filtre : graines domestiques
   cat("Valeurs de 'status' :\n"); print(table(db$status))
   if (!(statut_domestique %in% as.character(db$status))) {
     stop("Aucune ligne avec status == '", statut_domestique, "' pour ", taxon,
@@ -96,7 +88,7 @@ charger_taxon <- function(taxon, dossier_img) {
   db <- db[as.character(db$status) == statut_domestique, ]
   cat("Graines domestiques :", nrow(db), "\n")
 
-  # --- 2.3 chemins d'images
+  # Chemins d'images
   chemins <- as.character(db[[col_image]])
   cat("Exemples de chemins dans le .rda :\n"); print(head(chemins, 2))
   existe <- file.exists(chemins)
@@ -124,9 +116,7 @@ charger_taxon <- function(taxon, dossier_img) {
 }
 
 
-# ---------------------------------------------------------------------
-# 3. REUNION DES 3 TAXONS
-# ---------------------------------------------------------------------
+# Réunion des 3 taxons
 domestiques <- bind_rows(
   lapply(names(taxons), function(t) charger_taxon(t, taxons[[t]]))
 )
@@ -134,12 +124,10 @@ cat("\nGraines domestiques disponibles par taxon :\n")
 print(table(domestiques$taxon))
 
 
-# ---------------------------------------------------------------------
-# 4. TIRAGE ET PARTITION (train / test / external)
-# ---------------------------------------------------------------------
-# Meme logique que Test1 : N_total images par classe (ici : par taxon),
-# tirees sans remise, puis etiquetees "train", "test" (validation) ou
-# "external" (evaluation finale). Classes equilibrees.
+# Tirage et partition (train / test / external).
+# Même logique que Test1 : N_total images par classe (ici : par taxon),
+# tirées sans remise, puis étiquetées "train", "test" (validation) ou
+# "external" (évaluation finale). Classes équilibrées.
 
 N_train <- round(N_model * prop_train)
 N_test  <- N_model - N_train
@@ -170,11 +158,9 @@ print(table(master_df$partition, master_df$class))
 dfs <- split(master_df, master_df$partition)
 
 
-# ---------------------------------------------------------------------
-# 5. GENERATEURS D'IMAGES
-# ---------------------------------------------------------------------
-# DIFFERENCE : class_mode = "categorical" (etiquettes codees en vecteurs
-# a 3 composantes, de type [0,1,0]) au lieu de "binary".
+# Générateurs d'images.
+# Différence avec Test1 : class_mode = "categorical" (étiquettes codées en
+# vecteurs à 3 composantes, de type [0,1,0]) au lieu de "binary".
 
 all_datagen <- image_data_generator(rescale = 1/255)
 
@@ -199,17 +185,15 @@ cat("\nCodage des classes (ordre alphabetique) :\n")
 print(train_generator$class_indices)
 
 
-# ---------------------------------------------------------------------
-# 6. MODELE : VGG19 (gele) + tete a 3 sorties softmax
-# ---------------------------------------------------------------------
+# Modèle : VGG19 (gelé) + tête à 3 sorties softmax.
 try(tensorflow::set_random_seed(seed), silent = TRUE)
 
 base_model <- application_vgg19(weights     = "imagenet",
                                 include_top = FALSE,
                                 input_shape = input_shape)
 
-# DIFFERENCE : derniere couche = 3 neurones + softmax.
-# Softmax transforme 3 scores en 3 probabilites positives de somme 1.
+# Différence avec Test1 : dernière couche = 3 neurones + softmax.
+# Softmax transforme 3 scores en 3 probabilités positives de somme 1.
 predictions <- base_model$output %>%
   layer_global_average_pooling_2d() %>%
   layer_dense(units = 256, activation = "relu") %>%
@@ -218,8 +202,8 @@ predictions <- base_model$output %>%
 model <- keras_model(inputs = base_model$input, outputs = predictions)
 freeze_weights(base_model)
 
-# DIFFERENCE : categorical_crossentropy (perte adaptee a plusieurs classes
-# avec etiquettes en vecteurs)
+# Différence avec Test1 : categorical_crossentropy (perte adaptée à plusieurs
+# classes avec étiquettes en vecteurs)
 model %>% compile(optimizer = optimizer_rmsprop(learning_rate = 0.01),
                   loss      = "categorical_crossentropy",
                   metrics   = c("accuracy"))
@@ -227,19 +211,17 @@ model %>% compile(optimizer = optimizer_rmsprop(learning_rate = 0.01),
 summary(model)
 
 
-# ---------------------------------------------------------------------
-# 7. ENTRAINEMENT
-# ---------------------------------------------------------------------
+# Entraînement du modèle
 callbacks_list <- list(
   callback_early_stopping(monitor = "accuracy", patience = 20),
   callback_reduce_lr_on_plateau(monitor = "val_loss", factor = 0.1,
                                 patience = 10, min_lr = 1e-7)
 )
 
-# DIFFERENCE : nombre de batchs calcule sur le NOMBRE REEL d'images
-# (3 classes x N_train). Dans l'original (et Test1), floor(N_train/16)
-# ne comptait qu'une classe, donc une "epoque" ne parcourait qu'environ
-# la moitie des images ; avec 3 classes ce serait environ un tiers.
+# Différence avec Test1 : nombre de batchs calculé sur le NOMBRE RÉEL
+# d'images (3 classes x N_train). Dans l'original (et Test1), floor(N_train/16)
+# ne comptait qu'une classe, donc une "époque" ne parcourait qu'environ la
+# moitié des images ; avec 3 classes ce serait environ un tiers.
 steps_train <- ceiling(nrow(dfs$train) / batch_size)
 steps_val   <- ceiling(nrow(dfs$test)  / batch_size)
 
@@ -255,11 +237,9 @@ history <- model %>% fit(
 plot(history)
 
 
-# ---------------------------------------------------------------------
-# 8. EVALUATION SUR LES DONNEES EXTERNES (toutes les images)
-# ---------------------------------------------------------------------
-# DIFFERENCE : on utilise TOUTES les images externes (3 x 100 = 300),
-# sans melange, au lieu de floor(N_external/16) batchs.
+# Évaluation sur les données externes (toutes les images).
+# Différence avec Test1 : on utilise TOUTES les images externes (3 x 100 = 300),
+# sans mélange, au lieu de floor(N_external/16) batchs.
 n_ext   <- nrow(dfs$external)
 steps_e <- ceiling(n_ext / batch_size)
 
@@ -267,11 +247,11 @@ ext_eval <- model %>% evaluate(flux(dfs$external, melanger = FALSE),
                                steps = steps_e, verbose = 0)
 cat("\n[Perte et accuracy sur", n_ext, "images externes]\n"); print(ext_eval)
 
-# prediction image par image (generateur neuf, sans melange)
+# Prédiction image par image (générateur neuf, sans mélange)
 ext_gen      <- flux(dfs$external, melanger = FALSE)
 proba        <- predict(model, ext_gen, steps = steps_e, verbose = 0)  # n x 3
 classe_pred  <- max.col(proba)                      # indice de la plus grande proba
-classe_vraie <- as.integer(ext_gen$classes) + 1     # Keras code a partir de 0
+classe_vraie <- as.integer(ext_gen$classes) + 1     # Keras code à partir de 0
 
 noms_classes <- names(sort(unlist(ext_gen$class_indices)))
 conf <- table(vraie   = noms_classes[classe_vraie],
@@ -284,9 +264,7 @@ cat("Taux de bonne classification par espece :\n")
 print(round(diag(conf) / rowSums(conf), 3))
 
 
-# ---------------------------------------------------------------------
-# 9. SAUVEGARDE DES RESULTATS
-# ---------------------------------------------------------------------
+# Sauvegarde des résultats
 dir.create(dossier_res, recursive = TRUE, showWarnings = FALSE)
 nom_base <- sprintf("Test2_3especes_domestiques_N%d_ep%d_seed%d",
                     N_model, epochs, seed)
