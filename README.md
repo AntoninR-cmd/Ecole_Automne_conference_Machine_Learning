@@ -48,3 +48,5 @@ Les différents scripts produisent des graphiques permettant d'évaluer l'accura
 Si l'objectif est de tester un résultat correspondant à un niveau de la méthodologie, il suffit de se rendre dans le script correspondant et d'exécuter le code, en vérifiant au préalable que les chemins d'accès aux dossiers sont corrects.
 
 Si l'objectif est de réitérer les analyses avec des images différentes, il est nécessaire d'ajouter un nouveau dossier portant le nom de l'espèce dans le dossier « DATA », d'utiliser le script de création des fichiers « .rda », puis de modifier les paramètres dans les scripts afin de relier les nouvelles images aux modèles.
+
+scripts vgg_and_eft_this, digest et run_them_all sont des script sur lesquels nous nous sommes basées, et ils sont joints tels quels a l'article de Bonhomme.
