@@ -44,15 +44,15 @@ Le dataset n'est pas inclus : https://figshare.com/articles/dataset/GRAZPEDWRI-D
 Placer le datacolab.yaml à l'emplacement : "/content/drive/MyDrive/YOLO/datacolab.yaml", ou bien modifier le path.
 
 ## Environnement d'éxécution
-Plateforme : Google Colab
-Python : 3.13.16
-GPU : NVIDIA Tesla T4 (15 Go de mémoire)
-NVIDIA Driver Version : 580.82.07
-CUDA Version (NVIDIA-SMI) : 13.0
-PyTorch : 2.14.1+cu130
-Ultralytics : 8.4.210
-Modèle initial : yolo11n.pt
-Seed : 42
+-Plateforme : Google Colab
+-Python : 3.13.16
+-GPU : NVIDIA Tesla T4 (15 Go de mémoire)
+-NVIDIA Driver Version : 580.82.07
+-CUDA Version (NVIDIA-SMI) : 13.0
+-PyTorch : 2.14.1+cu130
+-Ultralytics : 8.4.210
+-Modèle initial : yolo11n.pt
+-Seed : 42
 
 ## Résultats
 
