@@ -1,0 +1,14 @@
+# Données Echosens : jamais dans ce dépôt
+Annotations/
+Elastos/
+# Fichiers qui contiennent des noms d'images / GUID d'examens
+sorties/final/partitions.json
+sorties/final/predictions/
+sorties/final/resultats_final.csv
+sorties/final/journal_*.txt
+sorties/final/test_rapide/
+# Environnement
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
