@@ -1,0 +1,3 @@
+PyYAML==6.0.3
+ultralytics==8.4.215
+torch==2.14.1+cu130
