@@ -66,6 +66,7 @@ Ouvrir `casmi_final.ipynb` sur GitHub : chaque section explique ce qu'elle fait,
 | Fichier | Contenu |
 |---|---|
 | `confirmation.png`, `confirmation.csv` | Les scores finaux de chaque modèle sur les molécules de confirmation, avec et sans l'écart de précurseur, sur les deux catalogues. |
+| `courbe_loss_mlp.png` | La loss d'entraînement et de validation (spectres `dev`) du MLP final, à chaque époque. |
 | `criblage.png`, `criblage.csv` | Le MRR@25 sur `dev` de chacun des réglages du criblage (chaque valeur de k compte pour les kNN). |
 | `criblage_meilleurs.csv` | Le meilleur réglage de chaque modèle, et la durée de toute sa grille. |
 | `lambda.csv` | L'effet du poids λ de l'écart de précurseur, pour chaque modèle. |
