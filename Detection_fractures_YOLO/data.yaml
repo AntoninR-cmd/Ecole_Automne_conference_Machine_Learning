@@ -1,0 +1,8 @@
+path: /Users/anatolelevrel/Documents/M2 - ACO/Machine Learning/Projet Machine Learning/dataset_patient  # Racine du dataset
+train: images/train              # Dossier des images d'entraînement (relatif à path)
+val: images/val                  # Dossier des images de validation
+test: images/test                # (Optionnel) Dossier des images de test
+
+# Classes
+names:
+  0: fracture
