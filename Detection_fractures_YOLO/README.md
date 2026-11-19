@@ -68,18 +68,18 @@ Dans le notebook Detection_fractures_YOLO/src/modeleYOLO_ML4lifescience.ipynb, m
 À date : 
 Tous les essais : `epochs=200`, `batch=16`.
 
-| Essai | Modèle YOLO | Paramètres clés | Résultats / Commentaires |
-|---|---|---|---|
-| Baseline | yolo11n.pt | imgsz=640 | best.pt après 72 époques, 1h30, mAP50 de 0,89, mAP50-95 de 0,47, précision 0,90, rappel 0,82 : détection fiable, mais rappel et localisation fine des boîtes à améliorer. |
-| Run 2 | yolo11n.pt | imgsz=864 | upcoming |
-| Run 3 | yolo11n.pt | imgsz=1024 | best.pt après 74 époques, performances équivalentes. |
-| Run 4 | yolo11n.pt | imgsz=1256 | best.pt à 54 époques, 2h30, performances équivalentes. |
+Tous les essais : `epochs=200`, `patience=50`, `batch=16`. Métriques du best.pt sur l'ensemble de validation.
 
-| Modèle | mAP50 | mAP50-95 | Précision | Rappel |
-|---|---|---|---|---|
-| YOLOv8n | | | | |
-| YOLO11n | | | | |
-| YOLO26n | | | | |
+| Essai | Modèle YOLO | imgsz | Best (époque) | Durée | mAP50 | mAP50-95 | Précision | Rappel | Commentaires |
+|---|---|---|---|---|---|---|---|---|---|
+| Baseline | yolo11n.pt | 640 | 72 | 1h30 | 0,89 | 0,47 | 0,90 | 0,82 | Détection fiable, mais rappel et localisation fine des boîtes à améliorer. |
+| Run 2 | yolo11n.pt | 864 | | | | | | | |
+| Run 3 | yolo11n.pt | 1024 | 74 | | | | | | Performances équivalentes à la baseline. |
+| Run 4 | yolo11n.pt | 1256 | 54 | 2h30 | | | | | Performances équivalentes, pour un temps d'entraînement plus long. |
+| Run 5 | yolo11s.pt | 640 | | | | | | | Performances quasi équivalentes malgré un modèle plus gros. |
+| Run 6 | yolo26n.pt | 640 | | | | | | | |
+| Run 7 | yolov8n.pt | 640 | 55 | 1h35 | 0,880 | 0,475 | 0,856 | 0,821 | Équivalent à la baseline YOLO11n : précision légèrement plus basse, mAP50-95 identique. |
+| Run 8 | | | | | | | | | |
 
 ## Références
 - Dataset GRAZPEDWRI-DX : https://figshare.com/articles/dataset/GRAZPEDWRI-DX/14825193
