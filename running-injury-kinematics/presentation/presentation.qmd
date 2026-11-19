@@ -1,9 +1,11 @@
 ---
-# Durée cible : 20 min, 20 slides de contenu (environ 1 min chacune).
-#   Le problème        Youri    ~4 min   5 slides
-#   Les données        Youri    ~3 min   5 slides
-#   Méthodologie       Lilou    ~7 min   4 slides
-#   Illustration       Charles  ~6 min   3 slides + conclusion (3 slides)
+# Durée : 15 min de présentation, puis 5 min de questions.
+#   Le problème        Youri    ~3 min     5 slides
+#   Les données        Youri    ~2,5 min   5 slides
+#   Méthodologie       Lilou    ~4 min     4 slides
+#   Deep learning       Charles  ~4 min     6 slides
+#   Conclusion         Youri    ~1,5 min   3 slides
+# Dans les notes (touche S) : « À dire » se dit à l'oral, « Si on vous demande » sert aux questions.
 # Animations : la jambe, le parcours diagnostique et l'entonnoir avancent au clic.
 # Règles : un message par slide, écrit en titre ; au plus un chiffre clé par slide ;
 # trois lignes de texte au maximum, le reste dans les notes (touche S) ;
@@ -12,7 +14,7 @@
 # on modifie seulement le fichier de sa partie, pour éviter les conflits entre branches.
 title: "Peut-on reconnaître une blessure du genou à la foulée ?"
 subtitle: "PFPS et ITBS chez le coureur : machine learning et deep learning"
-author: "Youri Michalowski-Skarbek · Lilou Génue · Charles Tricand de La Goutte"
+author: "Youri Michalowski-Skarbek · Lilou Guénue · Charles Tricand de La Goutte"
 date: 2026-11-20
 date-format: "D MMMM YYYY"
 institute: "École d'automne « Apprentissage automatique en sciences du vivant » · Institut Agro Rennes-Angers"
@@ -43,7 +45,7 @@ format:
 
 {{< include _03_methodologie.qmd >}}
 
-{{< include _04_illustration.qmd >}}
+{{< include _04_deep_learning.qmd >}}
 
 {{< include _05_conclusion.qmd >}}
 
