@@ -70,16 +70,16 @@ Tous les essais : `epochs=200`, `batch=16`.
 
 Tous les essais : `epochs=200`, `patience=50`, `batch=16`. Métriques du best.pt sur l'ensemble de validation.
 
-| Essai | Modèle YOLO | imgsz | Best (époque) | Durée | mAP50 | mAP50-95 | Précision | Rappel | Commentaires |
-|---|---|---|---|---|---|---|---|---|---|
-| Baseline | yolo11n.pt | 640 | 72 | 1h30 | 0,89 | 0,47 | 0,90 | 0,82 | Détection fiable, mais rappel et localisation fine des boîtes à améliorer. |
-| Run 2 | yolo11n.pt | 864 | | | | | | | |
-| Run 3 | yolo11n.pt | 1024 | 74 | | | | | | Performances équivalentes à la baseline. |
-| Run 4 | yolo11n.pt | 1256 | 54 | 2h30 | | | | | Performances équivalentes, pour un temps d'entraînement plus long. |
-| Run 5 | yolo11s.pt | 640 | | | | | | | Performances quasi équivalentes malgré un modèle plus gros. |
-| Run 6 | yolo26n.pt | 640 | | | | | | | |
-| Run 7 | yolov8n.pt | 640 | 55 | 1h35 | 0,880 | 0,475 | 0,856 | 0,821 | Équivalent à la baseline YOLO11n : précision légèrement plus basse, mAP50-95 identique. |
-| Run 8 | | | | | | | | | |
+| Essai | Modèle YOLO | imgsz | Best (époque) | Durée | mAP50 | mAP50-95 | Précision | Rappel |
+|---|---|---|---|---|---|---|---|---|
+| Baseline | yolo11n.pt | 640 | 72 | 1h30 | 0,89 | 0,47 | 0,90 | 0,82 |
+| Run 2 | yolo11n.pt | 864 | | | | | | |
+| Run 3 | yolo11n.pt | 1024 | 97 | 4h36 | 0,889 | 0,476 | 0,856 | 0,828 |
+| Run 4 | yolo11n.pt | 1280 | 54 | 3h26 | 0,876 | 0,473 | 0,852 | 0,793 |
+| Run 5 | yolo11s.pt | 640 | | | | | | |
+| Run 6 | yolo26n.pt | 640 | | | | | | |
+| Run 7 | yolov8n.pt | 640 | 55 | 1h35 | 0,880 | 0,475 | 0,856 | 0,821 |
+| Run 8 | | | | | | | | |
 
 ## Références
 - Dataset GRAZPEDWRI-DX : https://figshare.com/articles/dataset/GRAZPEDWRI-DX/14825193
