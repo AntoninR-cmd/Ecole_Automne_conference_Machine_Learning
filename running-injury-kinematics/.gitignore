@@ -1,0 +1,39 @@
+# Données volumineuses (téléchargées par les scripts, jamais versionnées)
+*.zip
+*.mat
+data/json/
+
+# Python
+__pycache__/
+.venv/
+venv/
+.ipynb_checkpoints/
+*.pt
+*.pth
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+.Ruserdata
+
+# Divers
+*.tmp
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Rendus Quarto (régénérables) et fichiers parasites de R
+exploration/*.html
+exploration/*_files/
+
+data/features/
+Rplots.pdf
+
+# Rendus de la présentation (régénérables)
+presentation/presentation.html
+presentation/presentation_files/
+
+# Rendus des notebooks de modèles (régénérables)
+modeles/*.html
+modeles/*_files/
